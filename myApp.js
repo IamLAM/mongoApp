@@ -166,7 +166,13 @@ done(null, data);
 
 var findOneByFood = function(food, done) {
 
-  done(null/*, data*/);
+Person.findOne({ favoriteFoods: food }, function (err, food) {
+  if (err) {
+    done(err);
+  }
+done(null,food);
+});  
+
   
 };
 
@@ -181,7 +187,13 @@ var findOneByFood = function(food, done) {
 
 var findPersonById = function(personId, done) {
   
-  done(null/*, data*/);
+  Person.findById({ _id: personId}, function (err, personId) {
+  if (err) {
+    done(err);
+  }
+done(null,personId);
+});  
+
   
 };
 
