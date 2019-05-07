@@ -14,7 +14,7 @@
 
 
 const mongoose = require('mongoose');
- mongoose.connect(process.env.MONGO_URI);
+ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true });
 
 
 /*
@@ -55,8 +55,18 @@ client.connect(err => {
 // `default` values. See the [mongoose docs](http://mongoosejs.com/docs/guide.html).
 
 // <Your code here >
+var Schema = mongoose.Schema;
 
-var Person /* = <Your Model> */
+var PersonSchema =new Schema({
+  name: {type: String, required: true },
+  age:Number,
+  favoriteFoods:[String]
+});
+
+var Person = mongoose.model("Person", PersonSchema);
+
+
+/* = <Your Model> */
 
 // **Note**: GoMix is a real server, and in real servers interactions with
 // the db are placed in handler functions, to be called when some event happens
@@ -94,9 +104,13 @@ var Person /* = <Your Model> */
 // });
 
 var createAndSavePerson = function(done) {
+  /*var pilar = new Person({
+    name: "Pilar",
+    age: 25,
+    favoriteFoods: ['Hotdogs', 'Pizza']
+  });
   
-  done(null /*, data*/);
-
+ pilar.save((err, data)=> err ? done(err) : done(null, data));*/
 };
 
 /** 4) Create many People with `Model.create()` */
