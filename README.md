@@ -1,2 +1,1 @@
-FCC Mongo & Mongoose Challenges
-===============================
+Mongo and node app
