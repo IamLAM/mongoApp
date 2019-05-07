@@ -328,7 +328,16 @@ done(null,nameToRemove);
 var queryChain = function(done) {
   var foodToSearch = "burrito";
   
-  done(null/*, data*/);
+Person.find({ favoriteFoods: foodToSearch })
+  .sort({name :1})
+  .limit(2)
+  .select({age:0})
+  .exec((err, data)=> {
+  if (err) {
+    done(err);
+  }
+done(null,data);
+});  
 };
 
 /** **Well Done !!**
