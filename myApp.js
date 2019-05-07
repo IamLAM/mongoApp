@@ -14,7 +14,7 @@
 
 
 const mongoose = require('mongoose');
- mongoose.connect(process.env.MONGO_URI);
+ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true });
 
 
 /*
@@ -55,8 +55,18 @@ client.connect(err => {
 // `default` values. See the [mongoose docs](http://mongoosejs.com/docs/guide.html).
 
 // <Your code here >
+var Schema = mongoose.Schema;
 
-var Person /* = <Your Model> */
+var PersonSchema =new Schema({
+  name: {type: String, required: true },
+  age:Number,
+  favoriteFoods:[String]
+});
+
+var Person = mongoose.model("Person", PersonSchema);
+
+
+/* = <Your Model> */
 
 // **Note**: GoMix is a real server, and in real servers interactions with
 // the db are placed in handler functions, to be called when some event happens
@@ -94,9 +104,13 @@ var Person /* = <Your Model> */
 // });
 
 var createAndSavePerson = function(done) {
+  var Pilar = new Person({
+    name: "Pilar",
+    age: 25,
+    favoriteFoods: ['Hotdogs', 'Pizza']
+  });
   
-  done(null /*, data*/);
-
+ Pilar.save((err, data)=> err ? done(err) : done(null, data));
 };
 
 /** 4) Create many People with `Model.create()` */
@@ -110,7 +124,12 @@ var createAndSavePerson = function(done) {
 
 var createManyPeople = function(arrayOfPeople, done) {
     
-    done(null/*, data*/);
+    Person.create(arrayOfPeople, function (err, data) {
+    if (err) {
+      done(err);
+      }
+    done(null, data);
+    });
     
 };
 
@@ -127,7 +146,12 @@ var createManyPeople = function(arrayOfPeople, done) {
 
 var findPeopleByName = function(personName, done) {
   
-  done(null/*, data*/);
+Person.find({ name: personName }, function (err, data) {
+  if (err) {
+    done(err);
+  }
+done(null, data);
+});  
 
 };
 
@@ -142,7 +166,13 @@ var findPeopleByName = function(personName, done) {
 
 var findOneByFood = function(food, done) {
 
-  done(null/*, data*/);
+Person.findOne({ favoriteFoods: food }, function (err, food) {
+  if (err) {
+    done(err);
+  }
+done(null,food);
+});  
+
   
 };
 
@@ -157,7 +187,13 @@ var findOneByFood = function(food, done) {
 
 var findPersonById = function(personId, done) {
   
-  done(null/*, data*/);
+  Person.findById({ _id: personId}, function (err, personId) {
+  if (err) {
+    done(err);
+  }
+done(null,personId);
+});  
+
   
 };
 
